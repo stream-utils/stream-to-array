@@ -53,6 +53,23 @@ streamTo.buffer(stream, function (err, buffer) {
 
 Of course, you don't always get to choose the encoding of the source stream.
 
+### Destroyed streams
+
+If a stream if destroyed (ie `close` is emitted) before it ends,
+then the callback will be returned, but no value will be.
+Thus, you should check that the value is valid.
+
+```js
+streamTo.buffer(stream, function (err, buffer) {
+  if (err)
+    callback(err)
+  else if (!buffer)
+    callback(new Error('The stream was destroyed.'))
+  else
+    callback(null, buffer)
+})
+```
+
 ## License
 
 The MIT License (MIT)
