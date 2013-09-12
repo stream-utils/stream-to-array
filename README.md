@@ -2,6 +2,11 @@
 
 Concatenate a readable stream's data into either a single buffer, string, or array.
 
+You may also be interested in:
+
+- [cursor-methods](https://github.com/jonathanong/cursor-methods)
+- [cat-stream](https://github.com/jonathanong/cat-stream)
+- 
 ## API
 
 ```js
