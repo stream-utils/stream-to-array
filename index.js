@@ -10,7 +10,6 @@ function toArray(stream, callback) {
   stream.once('error', cleanup)
   stream.once('end', onEnd)
   stream.once('end', cleanup)
-  stream.once('close', callback)
   stream.once('close', cleanup)
 
   function onData(doc) {
@@ -28,7 +27,6 @@ function toArray(stream, callback) {
     stream.removeListener('error', cleanup)
     stream.removeListener('end', onEnd)
     stream.removeListener('end', cleanup)
-    stream.removeListener('close', callback)
     stream.removeListener('close', cleanup)
   }
 
