@@ -34,33 +34,4 @@ describe('Stream To', function () {
       })
     })
   })
-
-  describe('String', function () {
-    it('should work with a binary stream and set encoding', function (done) {
-      var stream = fs.createReadStream(file)
-      stream.setEncoding('utf8')
-
-      streamTo.string(stream, function (err, string) {
-        if (err)
-          return done(err)
-
-        assert.ok(typeof string === 'string')
-        assert.ok(string.length)
-
-        done()
-      })
-    })
-
-    it('should work with a string stream', function (done) {
-      streamTo.string(fs.createReadStream(file, 'utf8'), function (err, string) {
-        if (err)
-          return done(err)
-
-        assert.ok(typeof string === 'string')
-        assert.ok(string.length)
-
-        done()
-      })
-    })
-  })
 })

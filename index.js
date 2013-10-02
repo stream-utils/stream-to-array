@@ -1,6 +1,5 @@
 exports.array = toArray
 exports.buffer = toBuffer
-exports.string = toString
 
 function toArray(stream, callback) {
   var arr = []
@@ -39,17 +38,6 @@ function toBuffer(stream, callback) {
       callback()
     else
       callback(null, Buffer.concat(arr))
-  })
-
-  return stream
-}
-
-function toString(stream, callback) {
-  toArray(stream, function (err, arr) {
-    if (err || !arr)
-      callback()
-    else
-      callback(null, arr.join(''))
   })
 
   return stream

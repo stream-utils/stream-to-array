@@ -35,46 +35,6 @@ streamTo.buffer(stream, function (err, buffer) {
 })
 ```
 
-### streamTo.string(stream, callback(err, string))
-
-Returns all the data objects concatenated into a single buffer.
-The source stream _should_ emit strings.
-Otherwise, you should juse use `streamTo.buffer()`.
-
-```js
-stream.setEncoding('utf8')
-streamTo.string(stream, function (err, string) {
-  assert.ok(typeof string === 'string')
-})
-```
-
-vs.
-
-```js
-streamTo.buffer(stream, function (err, buffer) {
-  assert.ok(typeof buffer.toString('utf8') === 'string')
-})
-```
-
-Of course, you don't always get to choose the encoding of the source stream.
-
-### Destroyed streams
-
-If a stream if destroyed (ie `close` is emitted) before it ends,
-then the callback will be returned, but no value will be.
-Thus, you should check that the value is valid.
-
-```js
-streamTo.buffer(stream, function (err, buffer) {
-  if (err)
-    callback(err)
-  else if (!buffer)
-    callback(new Error('The stream was destroyed.'))
-  else
-    callback(null, buffer)
-})
-```
-
 ## License
 
 The MIT License (MIT)
