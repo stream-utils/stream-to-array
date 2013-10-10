@@ -11,11 +11,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jonathanong/stream-to.git"
+    "url": "https://github.com/stream-utils/stream-to.git"
   },
   "bugs": {
     "mail": "me@jongleberry.com",
-    "url": "https://github.com/jonathanong/stream-to/issues"
+    "url": "https://github.com/stream-utils/stream-to/issues"
   },
   "devDependencies": {
     "mocha": "~1.12"

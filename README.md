@@ -1,4 +1,4 @@
-# Stream to ______ [![Build Status](https://travis-ci.org/jonathanong/stream-to.png)](https://travis-ci.org/jonathanong/stream-to)
+# Stream to ______ [![Build Status](https://travis-ci.org/stream-utils/stream-to.png)](https://travis-ci.org/stream-utils/stream-to)
 
 Concatenate a readable stream's data into either a single buffer, string, or array.
 
