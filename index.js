@@ -5,10 +5,9 @@ function toArray(stream, callback) {
   var arr = []
 
   stream.on('data', onData)
+  stream.once('end', onEnd)
   stream.once('error', callback)
   stream.once('error', cleanup)
-  stream.once('end', onEnd)
-  stream.once('end', cleanup)
   stream.once('close', cleanup)
 
   function onData(doc) {
@@ -17,15 +16,15 @@ function toArray(stream, callback) {
 
   function onEnd() {
     callback(null, arr)
+    cleanup()
   }
 
   function cleanup() {
     arr = null
     stream.removeListener('data', onData)
+    stream.removeListener('end', onEnd)
     stream.removeListener('error', callback)
     stream.removeListener('error', cleanup)
-    stream.removeListener('end', onEnd)
-    stream.removeListener('end', cleanup)
     stream.removeListener('close', cleanup)
   }
 
@@ -35,7 +34,7 @@ function toArray(stream, callback) {
 function toBuffer(stream, callback) {
   toArray(stream, function (err, arr) {
     if (err || !arr)
-      callback()
+      callback(err)
     else
       callback(null, Buffer.concat(arr))
   })
