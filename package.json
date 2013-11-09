@@ -18,7 +18,7 @@
     "url": "https://github.com/stream-utils/stream-to/issues"
   },
   "devDependencies": {
-    "mocha": "~1.12"
+    "mocha": "*"
   },
   "scripts": {
     "test": "make test"
