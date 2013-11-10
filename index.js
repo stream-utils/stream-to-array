@@ -7,8 +7,11 @@ function toArray(stream, done) {
   stream.on('data', onData)
   stream.once('end', onEnd)
   stream.once('error', onEnd)
-  stream.once('error', cleanup)
   stream.once('close', cleanup)
+
+  return function (fn) {
+    done = fn
+  }
 
   function onData(doc) {
     arr.push(doc)
@@ -26,12 +29,7 @@ function toArray(stream, done) {
     stream.removeListener('data', onData)
     stream.removeListener('end', onEnd)
     stream.removeListener('error', onEnd)
-    stream.removeListener('error', cleanup)
     stream.removeListener('close', cleanup)
-  }
-
-  return function (fn) {
-    done = fn
   }
 }
 
