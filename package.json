@@ -18,10 +18,12 @@
     "url": "https://github.com/stream-utils/stream-to/issues"
   },
   "devDependencies": {
+    "co": "*",
+    "gnode": "*",
     "mocha": "*"
   },
   "scripts": {
-    "test": "make test"
+    "test": "NODE=gnode make test"
   },
   "engines": {
     "node": ">= 0.10.0"
