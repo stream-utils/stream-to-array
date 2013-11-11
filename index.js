@@ -18,10 +18,8 @@ function toArray(stream, done) {
   }
 
   function onEnd(err) {
-    process.nextTick(function () {
-      done(err, arr)
-      cleanup()
-    })
+    done(err, arr)
+    cleanup()
   }
 
   function cleanup() {
@@ -35,7 +33,7 @@ function toArray(stream, done) {
 
 function toBuffer(stream, done) {
   toArray(stream, function (err, arr) {
-    done(err, !err && Buffer.concat(arr))
+    done(err, arr && Buffer.concat(arr))
   })
 
   return function (fn) {
