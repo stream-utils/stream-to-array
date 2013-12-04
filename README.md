@@ -1,20 +1,19 @@
-# Stream to ______ [![Build Status](https://travis-ci.org/stream-utils/stream-to.png)](https://travis-ci.org/stream-utils/stream-to)
+# Stream to Array [![Build Status](https://travis-ci.org/stream-utils/stream-to-array.png)](https://travis-ci.org/stream-utils/stream-to-array)
 
-Concatenate a readable stream's data into either a single buffer, string, or array.
+Concatenate a readable stream's data into a single array.
 
 You may also be interested in:
 
 - [cursor-methods](https://github.com/jonathanong/cursor-methods)
-- [cat-stream](https://github.com/jonathanong/cat-stream)
 
 ## API
 
 ```js
-var streamTo = require('stream-to')
+var toArray = require('stream-to-array')
 var stream = fs.createReadStream('some file.txt')
 ```
 
-### streamTo.array(stream, callback(err, arr))
+### toArray([stream], [callback(err, arr)])
 
 Returns all the data objects in an array.
 This is useful for streams in object mode if you want to just use an array.
@@ -25,14 +24,22 @@ streamTo.array(stream, function (err, arr) {
 })
 ```
 
-### streamTo.buffer(stream, callback(err, buffer))
-
-Returns all the data objects concatenated into a single buffer.
+If `stream` is not defined, it is assumed that `this` is a stream.
 
 ```js
-streamTo.buffer(stream, function (err, buffer) {
-  assert.ok(Buffer.isBuffer(buffer))
+var stream = new Stream.Readable()
+stream.toArray = toArray
+stream.toArray(function (err, arr) {
+
 })
+```
+
+If `callback` is not defined, then it is assumed that this is being yielded as a generator.
+
+```js
+var stream = new Stream.Readable()
+stream.toArray = toArray
+var arr = yield stream.toArray()
 ```
 
 ## License

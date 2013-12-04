@@ -1,7 +1,22 @@
-exports.array = toArray
-exports.buffer = toBuffer
+module.exports = function (stream, done) {
+  if (!stream) {
+    // no arguments, meaning stream = this
+    stream = this
+  } else if (typeof stream === 'function') {
+    // stream = this, callback passed
+    done = stream
+    stream = this
+  }
 
-function toArray(stream, done) {
+  // if stream is already ended,
+  // return an array
+  if (!stream.readable) {
+    process.nextTick(function () {
+      done(null, [])
+    })
+    return defer
+  }
+
   var arr = []
 
   stream.on('data', onData)
@@ -9,7 +24,9 @@ function toArray(stream, done) {
   stream.once('error', onEnd)
   stream.once('close', cleanup)
 
-  return function (fn) {
+  return defer
+
+  function defer(fn) {
     done = fn
   }
 
@@ -28,15 +45,5 @@ function toArray(stream, done) {
     stream.removeListener('end', onEnd)
     stream.removeListener('error', onEnd)
     stream.removeListener('close', cleanup)
-  }
-}
-
-function toBuffer(stream, done) {
-  toArray(stream, function (err, arr) {
-    done(err, arr && Buffer.concat(arr))
-  })
-
-  return function (fn) {
-    done = fn
   }
 }
