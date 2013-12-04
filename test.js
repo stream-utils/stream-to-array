@@ -17,31 +17,69 @@ function emptyStream() {
 }
 
 describe('Stream To Array', function () {
-  it('should work', function (done) {
-    toArray(fs.createReadStream(file), function (err, arr) {
-      if (err)
-        return done(err)
+  describe('as a function', function () {
+    it('should work', function (done) {
+      toArray(fs.createReadStream(file), function (err, arr) {
+        if (err)
+          return done(err)
 
-      assert.ok(Array.isArray(arr))
-      assert.ok(arr.length)
+        assert.ok(Array.isArray(arr))
+        assert.ok(arr.length)
 
-      done()
+        done()
+      })
+    })
+
+    it('should work as a yieldable', function (done) {
+      co(function* () {
+        var arr = yield toArray(fs.createReadStream(file))
+        assert.ok(Array.isArray(arr))
+        assert.ok(arr.length)
+      })(done)
+    })
+
+    it('should work as a yieldable with zalgo', function (done) {
+      co(function* () {
+        var arr = yield toArray(emptyStream())
+        assert.ok(Array.isArray(arr))
+        assert.equal(arr.length, 0)
+      })(done)
     })
   })
 
-  it('should work as a yieldable', function (done) {
-    co(function* () {
-      var arr = yield toArray(fs.createReadStream(file))
-      assert.ok(Array.isArray(arr))
-      assert.ok(arr.length)
-    })(done)
-  })
+  describe('as a method', function () {
+    it('should work', function (done) {
+      var stream = fs.createReadStream(file)
+      stream.toArray = toArray
+      stream.toArray(function (err, arr) {
+        if (err)
+          return done(err)
 
-  it('should work as a yieldable with zalgo', function (done) {
-    co(function* () {
-      var arr = yield toArray(emptyStream())
-      assert.ok(Array.isArray(arr))
-      assert.equal(arr.length, 0)
-    })(done)
+        assert.ok(Array.isArray(arr))
+        assert.ok(arr.length)
+
+        done()
+      })
+    })
+
+    it('should work as a yieldable', function (done) {
+      co(function* () {
+        var stream = fs.createReadStream(file)
+        stream.toArray = toArray
+        var arr = yield stream.toArray()
+        assert.ok(Array.isArray(arr))
+        assert.ok(arr.length)
+      })(done)
+    })
+
+    it('should work as a yieldable with zalgo', function (done) {
+      co(function* () {
+        var stream = emptyStream()
+        stream.toArray = toArray
+        var arr = yield stream.toArray()
+        assert.ok(Array.isArray(arr))
+        assert.equal(arr.length, 0)
+      })(done)
+    })
   })
 })

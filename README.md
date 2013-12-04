@@ -4,7 +4,7 @@ Concatenate a readable stream's data into a single array.
 
 You may also be interested in:
 
-- [cursor-methods](https://github.com/jonathanong/cursor-methods)
+- [raw-body](https://github.com/stream-utils/raw-body) for strings
 
 ## API
 
@@ -40,6 +40,14 @@ If `callback` is not defined, then it is assumed that this is being yielded as a
 var stream = new Stream.Readable()
 stream.toArray = toArray
 var arr = yield stream.toArray()
+```
+
+If you want to return a buffer, just use `Buffer.concat(arr)`
+
+```js
+var stream = new Stream.Readable()
+var arr = yield toArray(stream)
+var buffer = Buffer.concat(arr)
 ```
 
 ## License
