@@ -34,12 +34,14 @@ stream.toArray(function (err, arr) {
 })
 ```
 
-If `callback` is not defined, then it is assumed that this is being yielded as a generator.
+If `callback` is not defined, then it is assumed that it is being yielded within a generator.
 
 ```js
-var stream = new Stream.Readable()
-stream.toArray = toArray
-var arr = yield stream.toArray()
+function* () {
+  var stream = new Stream.Readable()
+  stream.toArray = toArray
+  var arr = yield stream.toArray()
+}
 ```
 
 If you want to return a buffer, just use `Buffer.concat(arr)`
