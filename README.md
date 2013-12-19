@@ -19,7 +19,7 @@ Returns all the data objects in an array.
 This is useful for streams in object mode if you want to just use an array.
 
 ```js
-streamTo.array(stream, function (err, arr) {
+toArray(stream, function (err, arr) {
   assert.ok(Array.isArray(arr))
 })
 ```
