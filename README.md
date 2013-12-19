@@ -10,7 +10,6 @@ You may also be interested in:
 
 ```js
 var toArray = require('stream-to-array')
-var stream = fs.createReadStream('some file.txt')
 ```
 
 ### toArray([stream], [callback(err, arr)])
@@ -19,6 +18,7 @@ Returns all the data objects in an array.
 This is useful for streams in object mode if you want to just use an array.
 
 ```js
+var stream = new Stream.Readable()
 toArray(stream, function (err, arr) {
   assert.ok(Array.isArray(arr))
 })
