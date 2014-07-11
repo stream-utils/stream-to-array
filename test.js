@@ -1,8 +1,8 @@
+
 var assert = require('assert')
+var stream = require('stream')
 var path = require('path')
 var fs = require('fs')
-var stream = require('stream')
-var co = require('co')
 
 var toArray = require('./')
 
@@ -30,20 +30,18 @@ describe('Stream To Array', function () {
       })
     })
 
-    it('should work as a yieldable', function (done) {
-      co(function* () {
-        var arr = yield toArray(fs.createReadStream(file))
+    it('should work as a promise', function () {
+      return toArray(fs.createReadStream(file)).then(function (arr) {
         assert.ok(Array.isArray(arr))
         assert.ok(arr.length)
-      })(done)
+      })
     })
 
-    it('should work as a yieldable with zalgo', function (done) {
-      co(function* () {
-        var arr = yield toArray(emptyStream())
+    it('should work as a promise with zalgo', function () {
+      return toArray(emptyStream()).then(function (arr) {
         assert.ok(Array.isArray(arr))
         assert.equal(arr.length, 0)
-      })(done)
+      })
     })
   })
 
@@ -62,24 +60,22 @@ describe('Stream To Array', function () {
       })
     })
 
-    it('should work as a yieldable', function (done) {
-      co(function* () {
-        var stream = fs.createReadStream(file)
-        stream.toArray = toArray
-        var arr = yield stream.toArray()
+    it('should work as a promise', function () {
+      var stream = fs.createReadStream(file)
+      stream.toArray = toArray
+      return stream.toArray().then(function (arr) {
         assert.ok(Array.isArray(arr))
         assert.ok(arr.length)
-      })(done)
+      })
     })
 
-    it('should work as a yieldable with zalgo', function (done) {
-      co(function* () {
-        var stream = emptyStream()
-        stream.toArray = toArray
-        var arr = yield stream.toArray()
+    it('should work as a promise with zalgo', function () {
+      var stream = emptyStream()
+      stream.toArray = toArray
+      return stream.toArray().then(function (arr) {
         assert.ok(Array.isArray(arr))
         assert.equal(arr.length, 0)
-      })(done)
+      })
     })
   })
 })

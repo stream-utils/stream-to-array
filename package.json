@@ -9,23 +9,17 @@
     "twitter": "https://twitter.com/jongleberry"
   },
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/stream-utils/stream-to-array.git"
-  },
-  "bugs": {
-    "mail": "me@jongleberry.com",
-    "url": "https://github.com/stream-utils/stream-to-array/issues"
+  "repository": "stream-utils/stream-to-array",
+  "dependencies": {
+    "bluebird": "2"
   },
   "devDependencies": {
-    "co": "*",
-    "gnode": "*",
-    "mocha": "*"
+    "mocha": "1"
   },
   "scripts": {
-    "test": "NODE=gnode make test"
+    "test": "mocha --reporter spec --bail"
   },
-  "engines": {
-    "node": ">= 0.10.0"
-  }
+  "files": [
+    "index.js"
+  ]
 }

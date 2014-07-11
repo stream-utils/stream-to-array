@@ -1,3 +1,6 @@
+
+var Promise = require('bluebird')
+
 module.exports = function (stream, done) {
   if (!stream) {
     // no arguments, meaning stream = this
@@ -8,42 +11,48 @@ module.exports = function (stream, done) {
     stream = this
   }
 
-  // if stream is already ended,
-  // return an array
-  if (!stream.readable) {
-    process.nextTick(function () {
-      done(null, [])
-    })
-    return defer
+  var deferred
+  if (!stream.readable) deferred = Promise.resolve([])
+  else deferred = new Promise(function (resolve, reject) {
+    // stream is already ended
+    if (!stream.readable) return resolve([])
+
+    var arr = []
+
+    stream.on('data', onData)
+    stream.on('end', onEnd)
+    stream.on('error', onEnd)
+    stream.on('close', onClose)
+
+    function onData(doc) {
+      arr.push(doc)
+    }
+
+    function onEnd(err) {
+      if (err) reject(err)
+      else resolve(arr)
+      cleanup()
+    }
+
+    function onClose() {
+      resolve()
+      cleanup()
+    }
+
+    function cleanup() {
+      arr = null
+      stream.removeListener('data', onData)
+      stream.removeListener('end', onEnd)
+      stream.removeListener('error', onEnd)
+      stream.removeListener('close', onClose)
+    }
+  })
+
+  if (typeof done === 'function') {
+    deferred.then(function (arr) {
+      done(null, arr)
+    }, done)
   }
 
-  var arr = []
-
-  stream.on('data', onData)
-  stream.once('end', onEnd)
-  stream.once('error', onEnd)
-  stream.once('close', cleanup)
-
-  return defer
-
-  function defer(fn) {
-    done = fn
-  }
-
-  function onData(doc) {
-    arr.push(doc)
-  }
-
-  function onEnd(err) {
-    done(err, arr)
-    cleanup()
-  }
-
-  function cleanup() {
-    arr = null
-    stream.removeListener('data', onData)
-    stream.removeListener('end', onEnd)
-    stream.removeListener('error', onEnd)
-    stream.removeListener('close', cleanup)
-  }
+  return deferred
 }
