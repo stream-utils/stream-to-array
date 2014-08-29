@@ -4,7 +4,7 @@ var stream = require('stream')
 var path = require('path')
 var fs = require('fs')
 
-var toArray = require('./')
+var toArray = require('..')
 
 var file = path.join(__dirname, 'index.js')
 

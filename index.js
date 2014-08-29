@@ -1,5 +1,5 @@
 
-var Promise = require('bluebird')
+var Promise = require('native-or-bluebird')
 
 module.exports = function (stream, done) {
   if (!stream) {
