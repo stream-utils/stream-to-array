@@ -11,10 +11,10 @@
   "license": "MIT",
   "repository": "stream-utils/stream-to-array",
   "dependencies": {
+    "bluebird": "2",
     "native-or-bluebird": "1"
   },
   "devDependencies": {
-    "bluebird": "2",
     "mocha": "1",
     "istanbul": "0"
   },
