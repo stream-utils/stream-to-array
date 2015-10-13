@@ -41,22 +41,27 @@ stream.toArray(function (err, arr) {
 })
 ```
 
-If `callback` is not defined, then it is assumed that it is being yielded within a generator.
+If `callback` is not defined, then it returns a promise.
 
 ```js
-function* () {
-  var stream = new Stream.Readable()
-  stream.toArray = toArray
-  var arr = yield stream.toArray()
-}
+toArray(stream)
+  .then(function (parts) {
+
+  })
 ```
 
 If you want to return a buffer, just use `Buffer.concat(arr)`
 
 ```js
-var stream = new Stream.Readable()
-var arr = yield toArray(stream)
-var buffer = Buffer.concat(arr)
+toArray(stream)
+  .then(function (parts) {
+    var buffers = []
+    for (var i = 0, l = parts.length; i < l ; ++i) {
+      var part = parts[i]
+      buffers.push((part instanceof Buffer) ? part : new Buffer(part))
+    }
+    return Buffer.concat(buffers)
+  })
 ```
 
 [npm-image]: https://img.shields.io/npm/v/stream-to-array.svg?style=flat-square
