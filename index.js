@@ -35,7 +35,7 @@ module.exports = function (stream, done) {
     }
 
     function onClose() {
-      resolve()
+      resolve(arr)
       cleanup()
     }
 

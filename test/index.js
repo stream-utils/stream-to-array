@@ -16,6 +16,16 @@ function emptyStream() {
   return s
 }
 
+function closedStream() {
+  var s = new stream.Readable();
+  s._read = function () {
+  }
+  process.nextTick(function () {
+    s.emit('close')
+  })
+  return s
+}
+
 describe('Stream To Array', function () {
   describe('as a function', function () {
     it('should work', function (done) {
@@ -39,6 +49,13 @@ describe('Stream To Array', function () {
 
     it('should work as a promise with zalgo', function () {
       return toArray(emptyStream()).then(function (arr) {
+        assert.ok(Array.isArray(arr))
+        assert.equal(arr.length, 0)
+      })
+    })
+
+    it('should work as a promise with chucky', function () {
+      return toArray(closedStream()).then(function (arr) {
         assert.ok(Array.isArray(arr))
         assert.equal(arr.length, 0)
       })
@@ -71,6 +88,15 @@ describe('Stream To Array', function () {
 
     it('should work as a promise with zalgo', function () {
       var stream = emptyStream()
+      stream.toArray = toArray
+      return stream.toArray().then(function (arr) {
+        assert.ok(Array.isArray(arr))
+        assert.equal(arr.length, 0)
+      })
+    })
+
+    it('should work as a promise with chucky', function () {
+      var stream = closedStream()
       stream.toArray = toArray
       return stream.toArray().then(function (arr) {
         assert.ok(Array.isArray(arr))
