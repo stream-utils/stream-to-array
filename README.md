@@ -6,7 +6,6 @@
 [![Dependency Status][david-image]][david-url]
 [![License][license-image]][license-url]
 [![Downloads][downloads-image]][downloads-url]
-[![Gittip][gittip-image]][gittip-url]
 
 Concatenate a readable stream's data into a single array.
 
@@ -74,5 +73,3 @@ var buffer = Buffer.concat(arr)
 [license-url]: LICENSE
 [downloads-image]: http://img.shields.io/npm/dm/stream-to-array.svg?style=flat-square
 [downloads-url]: https://npmjs.org/package/stream-to-array
-[gittip-image]: https://img.shields.io/gittip/jonathanong.svg?style=flat-square
-[gittip-url]: https://www.gittip.com/jonathanong/
