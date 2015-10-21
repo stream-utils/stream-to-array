@@ -15,8 +15,8 @@
     "native-or-bluebird": "1"
   },
   "devDependencies": {
-    "mocha": "1",
-    "istanbul": "0"
+    "istanbul": "0",
+    "mocha": "^2.3.3"
   },
   "scripts": {
     "test": "mocha --reporter spec --bail",
