@@ -50,7 +50,9 @@ module.exports = function (stream, done) {
 
   if (typeof done === 'function') {
     deferred.then(function (arr) {
-      done(null, arr)
+      process.nextTick(function() {
+        done(null, arr)
+      })
     }, done)
   }
 

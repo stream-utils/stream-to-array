@@ -3,6 +3,7 @@ var assert = require('assert')
 var stream = require('stream')
 var path = require('path')
 var fs = require('fs')
+var trycatch = require("trycatch")
 
 var toArray = require('..')
 
@@ -59,6 +60,27 @@ describe('Stream To Array', function () {
         assert.ok(Array.isArray(arr))
         assert.equal(arr.length, 0)
       })
+    })
+
+    it('should not swallow errors', function (done) {
+      var id = {}
+      trycatch(
+        function () {
+          toArray(emptyStream(), function (err, arr) {
+            if (err)
+              return done(err)
+
+            var err = new Error("foo")
+            err.id = id
+            throw err
+          })
+        },
+        function (err) {
+          assert(err);
+          assert.equal(err.id, id);
+          done();
+        }
+      )
     })
   })
 
