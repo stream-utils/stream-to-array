@@ -3,7 +3,6 @@ var assert = require('assert')
 var stream = require('stream')
 var path = require('path')
 var fs = require('fs')
-var trycatch = require("trycatch")
 
 var toArray = require('..')
 
@@ -63,24 +62,32 @@ describe('Stream To Array', function () {
     })
 
     it('should not swallow errors', function (done) {
-      var id = {}
-      trycatch(
-        function () {
-          toArray(emptyStream(), function (err, arr) {
-            if (err)
-              return done(err)
+      // remove all current listeners, specifically mocha's
+      var listeners = process.listeners('uncaughtException')
+      process.removeAllListeners('uncaughtException')
 
-            var err = new Error("foo")
-            err.id = id
-            throw err
-          })
-        },
-        function (err) {
-          assert(err);
-          assert.equal(err.id, id);
-          done();
-        }
-      )
+      // add our own
+      process.on('uncaughtException', onUncaughtException)
+
+      // TODO: move this testing logic to a module
+      function onUncaughtException (err) {
+        // remove our own listener
+        process.removeListener('uncaughtException', onUncaughtException)
+
+        // add all previous listeners
+        listeners.forEach(function (listener) {
+          process.on('uncaughtException', listener)
+        })
+
+        done()
+      }
+
+      toArray(emptyStream(), function () {
+        // this should be uncaught
+        throw new Error('BOOM')
+      }).catch(err => {
+        if (err) return done(err)
+      })
     })
   })
 

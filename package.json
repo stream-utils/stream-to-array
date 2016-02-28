@@ -11,13 +11,12 @@
   "license": "MIT",
   "repository": "stream-utils/stream-to-array",
   "dependencies": {
-    "native-or-bluebird": "^1.2.0"
+    "any-promise": "^1.1.0"
   },
   "devDependencies": {
     "bluebird": "^3.1.1",
     "istanbul": "^0.4.2",
-    "mocha": "^2.3.3",
-    "trycatch": "^1.5.21"
+    "mocha": "^2.3.3"
   },
   "scripts": {
     "test": "mocha --reporter spec --bail",
