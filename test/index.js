@@ -85,7 +85,7 @@ describe('Stream To Array', function () {
       toArray(emptyStream(), function () {
         // this should be uncaught
         throw new Error('BOOM')
-      }).catch(err => {
+      }).catch(function (err) {
         if (err) return done(err)
       })
     })
