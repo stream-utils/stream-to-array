@@ -55,12 +55,9 @@ If you want to return a buffer, just use `Buffer.concat(arr)`
 ```js
 toArray(stream)
   .then(function (parts) {
-    var buffers = []
-    for (var i = 0, l = parts.length; i < l ; ++i) {
-      var part = parts[i]
-      buffers.push((part instanceof Buffer) ? part : new Buffer(part))
-    }
-    return Buffer.concat(buffers)
+    const buffers = parts
+      .map(part => util.isBuffer(part) ? part : Buffer.from(part));
+    return Buffer.concat(buffers);
   })
 ```
 
