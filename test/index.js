@@ -89,6 +89,16 @@ describe('Stream To Array', function () {
         if (err) return done(err)
       })
     })
+
+    it('should handle stream errors', function (done) {
+      toArray(fs.createReadStream("madeupfile.jpg"))
+        .then(function () {
+          done(new Error("Promise should be rejected"))
+        })
+        .catch(function (err) {
+          done()
+        })
+    })
   })
 
   describe('as a method', function () {

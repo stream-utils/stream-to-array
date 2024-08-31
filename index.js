@@ -21,7 +21,7 @@ module.exports = function (stream, done) {
 
     stream.on('data', onData)
     stream.on('end', onEnd)
-    stream.on('error', onEnd)
+    stream.on('error', onError)
     stream.on('close', onClose)
 
     function onData(doc) {
@@ -29,8 +29,12 @@ module.exports = function (stream, done) {
     }
 
     function onEnd(err) {
-      if (err) reject(err)
-      else resolve(arr)
+      resolve(arr)
+      cleanup()
+    }
+
+    function onError(err) {
+      reject(err)
       cleanup()
     }
 
