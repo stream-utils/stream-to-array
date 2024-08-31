@@ -49,11 +49,7 @@ module.exports = function (stream, done) {
   })
 
   if (typeof done === 'function') {
-    deferred.then(function (arr) {
-      process.nextTick(function() {
-        done(null, arr)
-      })
-    }, done)
+    deferred.then(function (arr) { done(null, arr) }, done)
   }
 
   return deferred
