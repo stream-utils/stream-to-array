@@ -1,5 +1,7 @@
 # Stream to Array
 
+> **OBSOLETE: since node@18, there is now a [stream.toArray()](https://github.com/stream-utils/stream-to-array/issues/26) function**
+
 [![NPM version][npm-image]][npm-url]
 [![Build status][travis-image]][travis-url]
 [![Test coverage][coveralls-image]][coveralls-url]
